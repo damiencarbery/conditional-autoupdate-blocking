@@ -1,12 +1,12 @@
 # Conditional Auto Update blocking
-Contributors: daymobrew
-Tags: updates, downloads, download manager
-Requires at least: 6.7
-Tested up to: 7.0
-Requires PHP: 7.4
-Stable tag: 0.1.20260529
-License: GPLv3
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Contributors: daymobrew  
+Tags: updates, auto-updates  
+Requires at least: 6.7  
+Tested up to: 7.0  
+Requires PHP: 7.4  
+Stable tag: 0.1.20260529  
+License: GPLv3  
+License URI: https://www.gnu.org/licenses/gpl-3.0.html  
 
 Allow for conditionally blocking the auto update of a plugin e.g. limit days one can be updated or any condition you can think of.
 
