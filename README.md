@@ -13,7 +13,7 @@ Allow for conditionally blocking the auto update of a plugin e.g. limit days one
 ## Description
 When auto-updates are enabled for a plugin this code can be used to allow or block the update. For example, you could prevent updates on Friday, Saturday and Sunday so that critical error will not bring your site down over the weekend.
 
-Note that the plugin as-is does not block any updates. This must be done with additional code written by a developer (using the 'should_update_check' filter). There are examples in the 'Developer information' section.
+Note that the plugin as-is does not block any updates. This must be done with additional code written by a developer (using the `should_update_check` filter). There are examples in the [Developer information](#developer-information) section.
 
 If you find a bug, have a feature request, please create an issue via the plugin's [GitHub repository](https://github.com/damiencarbery/conditional-autoupdate-blocking/issues).
 
