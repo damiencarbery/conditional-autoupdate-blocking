@@ -1,4 +1,4 @@
-=== Conditional Auto Update blocking ===
+# Conditional Auto Update blocking
 Contributors: daymobrew
 Tags: updates, downloads, download manager
 Requires at least: 6.7
@@ -10,7 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Allow for conditionally blocking the auto update of a plugin e.g. limit days one can be updated or any condition you can think of.
 
-== Description ==
+## Description
 When auto-updates are enabled for a plugin this code can be used to allow or block the update. For example, you could prevent updates on Friday, Saturday and Sunday so that critical error will not bring your site down over the weekend.
 
 Note that the plugin as-is does not block any updates. This must be done with additional code written by a developer (using the 'should_update_check' filter). There are examples in the 'Developer information' section.
@@ -19,16 +19,16 @@ If you find a bug, have a feature request, please create an issue via the plugin
 
 You can also [contact me on my website](https://www.damiencarbery.com/contact/).
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions
 None yet.
 
-== Upgrade Notice ==
+## Upgrade Notice
 None yet.
 
-== ToDo ==
+## ToDo
 - Change how content is added to the email without needing to use "global $ConditionalAutoUpdateBlocking;".
 
-== Developer information ==
+## Developer information
 
 Example usage of blocking updates on Fridays and at weekends.
 
@@ -38,7 +38,7 @@ For example:
 
 	<?php
 	add_filter( 'should_update_check', 'dcwd_no_weekend_updates', 10, 2 );
-  function dcwd_no_weekend_updates( $update, $item ) {
+	function dcwd_no_weekend_updates( $update, $item ) {
 	  $day_of_week = date( 'w' );  // 1 == Monday, 7 == Sunday.
 
 	  // No updates on Friday, Saturday or Sunday.
@@ -55,8 +55,6 @@ For example:
 
 
 Example usage of blocking WooCommerce updates for .0 versions.
-
-
 
 	<?php
 	add_filter( 'should_update_check', 'dcwd_no_zero_version_woocommerce', 5, 2 );
@@ -78,6 +76,3 @@ Example usage of blocking WooCommerce updates for .0 versions.
 
 = 0.1.20260529 =
 * Initial release.
-
-= 0.1.20260118 =
-* Initial version.
