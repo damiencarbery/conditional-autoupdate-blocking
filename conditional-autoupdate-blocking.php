@@ -1,10 +1,13 @@
 <?php
 /*
-Plugin Name: Conditional Auto Update blocking
+Plugin Name: Conditional Auto-Update blocking
 Plugin URI: https://www.damiencarbery.com/
-Description: Allow for conditionally blocking the auto update of a plugin e.g. limit days one can be updated or any condition you can think of.
+Description: Allow for conditionally blocking the auto-update of a plugin e.g. limit days one can be updated or any condition you can think of.
 Author: Damien Carbery
-Version: 0.1.20260529
+Author URI: https://www.damiencarbery.com
+Version: 0.1.20260608
+License: GPL v3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
 
@@ -68,45 +71,10 @@ class ConditionalAutoUpdateBlocking {
 	public function send_info_about_blocked_updates( $update_results ) {
 		if ( !empty( $this->email_content ) ) {
 			$to = get_site_option( 'admin_email' );
-			$subject = 'Some plugin updates blocked ';
-			$body = sprintf( 'Some plugin updates on your site at %s have been blocked. The plugins and reasons are listed below:%s* %s', home_url(), "\n\n", implode( "\n* ", $this->email_content ) );
+			$subject = 'Some plugin auto-updates blocked ';
+			$body = sprintf( 'Some plugin auto-updates on your site at %s have been blocked. The plugins and reasons are listed below:%s* %s', home_url(), "\n\n", implode( "\n* ", $this->email_content ) );
 			wp_mail( $to, $subject, $body );
 		}
 	}
 }
 $ConditionalAutoUpdateBlocking = new ConditionalAutoUpdateBlocking();
-
-
-// Example usage of the ConditionalAutoUpdateBlocking code to prevent updates on Fridays and at weekends.
-add_filter( 'should_update_check', 'dcwd_no_weekend_updates', 10, 2 );
-function dcwd_no_weekend_updates( $update, $item ) {
-	$day_of_week = date( 'w' );  // 1 == Monday, 7 == Sunday.
-
-	// No updates on Friday, Saturday or Sunday.
-	if ( in_array( $day_of_week, array( 5, 6, 7 ) ) ) {
-		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $item->plugin );
-		global $ConditionalAutoUpdateBlocking;
-		$ConditionalAutoUpdateBlocking->add_to_email_content( sprintf( 'Block updating "%s" to %s as updates are only allowed Monday - Thursday.', $plugin_data['Name'], $item->new_version ) );
-
-		return false;
-	}
-
-	return $update;
-}
-
-
-// Example usage of the ConditionalAutoUpdateBlocking code to prevent WooCommerce updates for .0 versions.
-add_filter( 'should_update_check', 'dcwd_no_zero_version_woocommerce', 5, 2 );
-function dcwd_no_zero_version_woocommerce( $update, $item ) {
-	if ( 'woocommerce' == $item->slug && !empty( $item->new_version ) ) {
-		$version = explode( '.', $item->new_version );
-
-		if ( $version[ count( $version ) - 1 ] == 0 ) {
-			global $ConditionalAutoUpdateBlocking;
-			$ConditionalAutoUpdateBlocking->add_to_email_content( 'WooCommerce patch version is 0 so do not update. Will wait for .1 version.' );
-			return false;
-		}
-	}
-
-	return $update;
-}
