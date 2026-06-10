@@ -5,7 +5,7 @@ Plugin URI: https://www.damiencarbery.com/
 Description: Examples using the ConditionalAutoUpdateBlocking code to blocking the auto-update of a plugin e.g. limit days one can be updated or any condition you can think of.
 Author: Damien Carbery
 Author URI: https://www.damiencarbery.com
-Version: 0.2.20260608
+Version: 0.3.20260610
 License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -23,8 +23,8 @@ function dcwd_no_weekend_updates( $update, $item ) {
 	// No updates on Friday, Saturday or Sunday.
 	if ( in_array( $day_of_week, array( 5, 6, 7 ) ) ) {
 		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $item->plugin );
-		global $ConditionalAutoUpdateBlocking;
-		$ConditionalAutoUpdateBlocking->add_to_email_content( sprintf( 'Block updating "%s" to %s as updates are only allowed Monday - Thursday.', $plugin_data['Name'], $item->new_version ) );
+
+		CAUB()->add_to_email_content( sprintf( 'Block updating "%s" to %s as updates are only allowed Monday - Thursday.', $plugin_data['Name'], $item->new_version ) );
 
 		return false;
 	}
@@ -40,8 +40,7 @@ function dcwd_no_zero_version_woocommerce( $update, $item ) {
 		$version = explode( '.', $item->new_version );
 
 		if ( $version[ count( $version ) - 1 ] == 0 ) {
-			global $ConditionalAutoUpdateBlocking;
-			$ConditionalAutoUpdateBlocking->add_to_email_content( 'WooCommerce patch version is 0 so do not update. Will wait for .1 version.' );
+			CAUB()->add_to_email_content( 'WooCommerce patch version is 0 so do not update. Will wait for .1 version.' );
 			return false;
 		}
 	}
@@ -73,8 +72,7 @@ function dcwd_woocommerce_two_weeks_old( $update, $item ) {
 			return $update;
 		}
 		else {
-			global $ConditionalAutoUpdateBlocking;
-			$ConditionalAutoUpdateBlocking->add_to_email_content( 'WooCommerce update is less than two weeks old so do not update. Will wait until it is two weeks old.' );
+			CAUB()->add_to_email_content( 'WooCommerce update is less than two weeks old so do not update. Will wait until it is two weeks old.' );
 			return false;
 		}
 	}
