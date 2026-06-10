@@ -4,7 +4,7 @@ Tags: updates, auto-updates
 Requires at least: 6.7  
 Tested up to: 7.0  
 Requires PHP: 7.4  
-Stable tag: 0.2.20260608
+Stable tag: 0.3.20260610
 License: GPLv3  
 License URI: https://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -26,7 +26,7 @@ None yet.
 None yet.
 
 ## ToDo
-- Change how content is added to the email without needing to use "global $ConditionalAutoUpdateBlocking;".
+
 
 ## Developer information
 
@@ -44,8 +44,7 @@ For example:
 	  // No updates on Friday, Saturday or Sunday.
 	  if ( in_array( $day_of_week, array( 5, 6, 7 ) ) ) {
 		  $plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $item->plugin );
-		  global $ConditionalAutoUpdateBlocking;
-		  $ConditionalAutoUpdateBlocking->add_to_email_content( sprintf( 'Block updating "%s" to %s as updates are only allowed Monday - Thursday.', $plugin_data['Name'], $item->new_version ) );
+		  CAUB()->add_to_email_content( sprintf( 'Block updating "%s" to %s as updates are only allowed Monday - Thursday.', $plugin_data['Name'], $item->new_version ) );
 
 		  return false;
 	  }
@@ -62,8 +61,7 @@ Example usage of blocking WooCommerce updates for .0 versions.
 		if ( 'woocommerce' == $item->slug && !empty( $item->new_version ) ) {
 			$version = explode( '.', $item->new_version );
       if ( $version[ count( $version ) - 1 ] == 0 ) {
-        global $ConditionalAutoUpdateBlocking;
-        $ConditionalAutoUpdateBlocking->add_to_email_content( 'WooCommerce patch version is 0 so do not update. Will wait for .1 version.' );
+        CAUB()->add_to_email_content( 'WooCommerce patch version is 0 so do not update. Will wait for .1 version.' );
         return false
 		  }
     }
@@ -97,8 +95,7 @@ Example usage of the ConditionalAutoUpdateBlocking code to prevent WooCommerce u
 				return $update;
 			}
 			else {
-				global $ConditionalAutoUpdateBlocking;
-				$ConditionalAutoUpdateBlocking->add_to_email_content( 'WooCommerce update is less than two weeks old so do not update. Will wait until it is two weeks old.' );
+				CAUB()->add_to_email_content( 'WooCommerce update is less than two weeks old so do not update. Will wait until it is two weeks old.' );
 				return false;
 			}
 		}
@@ -107,6 +104,9 @@ Example usage of the ConditionalAutoUpdateBlocking code to prevent WooCommerce u
 	}
 
 == Changelog ==
+
+= 0.3.20260610 =
+* Use function, CAUB(), to return an instance of the class; use this to initialise the class. This is how WooCommerce does it. Update examples to use this too.
 
 = 0.2.20260608 =
 * Move examples to separate file; tweak text from "plugin updates" to "plugin auto-updates" to match the text in admin area.
